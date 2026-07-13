@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>極光精準健康管理中心 Aura Precision Health Lab</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <style>
+        
+        :root {
+            --brand-primary: #12263f;    /* 深邃科技藍 - 主色 */
+            --brand-secondary: #00a896;  /* 極光療癒綠 - 輔色 */
+            --brand-accent: #b58926;     /* 優雅琥珀金 - 強調色 */
+            --brand-light-bg: #f4f7f6;   /* 醫療輕霧灰 - 背景 */
+            --brand-dark-text: #2d3748;  /* 深色沉穩字 */
+            --brand-muted-text: #718096; /* 灰調內文字 */
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Noto Sans TC', sans-serif;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            color: var(--brand-dark-text);
+            background-color: #ffffff;
+        }
+
+        /* 專屬客製化按鈕 */
+        .btn-brand-glow {
+            background-color: var(--brand-secondary);
+            color: #ffffff;
+            border: none;
+            transition: all 0.4s ease;
+        }
+        .btn-brand-glow:hover {
+            background-color: var(--brand-primary);
+            color: #ffffff;
+            box-shadow: 0 5px 15px rgba(0, 168, 150, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-brand-outline {
+            border: 2px solid var(--brand-secondary);
+            color: var(--brand-secondary);
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+        .btn-brand-outline:hover {
+            background-color: var(--brand-secondary);
+            color: #ffffff;
+        }
+
+        /* 區塊背景客製 */
+        .bg-brand-dark { background-color: var(--brand-primary); color: #ffffff; }
+        .bg-brand-light { background-color: var(--brand-light-bg); }
+        .text-brand-accent { color: var(--brand-accent); }
+        .text-brand-secondary { color: var(--brand-secondary); }
+
+        /* 導覽列與主視覺客製 */
+        .custom-navbar {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--brand-primary);
+            letter-spacing: 1px;
+        }
+        .nav-link {
+            color: var(--brand-dark-text);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-link:hover { color: var(--brand-secondary); }
+
+        .hero-section { position: relative; }
+        .carousel-item {
+            height: 650px;
+            background-size: cover;
+            background-position: center;
+        }
+        .carousel-caption-box {
+            background: rgba(255, 255, 255, 0.96);
+            border-left: 5px solid var(--brand-secondary);
+            border-radius: 4px 16px 16px 4px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            max-width: 580px;
+        }
+
+        /* 時間軸與卡片設計 */
+        .process-flow {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .process-node {
+            text-align: center;
+            margin: 1.5rem;
+            min-width: 180px;
+        }
+        .process-icon-wrap {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--brand-light-bg);
+            color: var(--brand-secondary);
+            font-size: 1.5rem;
+            margin: 0 auto 1.2rem;
+            border: 2px solid var(--brand-secondary);
+            transition: all 0.3s ease;
+        }
+        .process-node:hover .process-icon-wrap {
+            background-color: var(--brand-secondary);
+            color: #ffffff;
+            transform: scale(1.1);
+        }
+
+        .premium-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            transition: all 0.4s ease;
+        }
+        .premium-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(18, 38, 63, 0.08);
+        }
+
+        /* 環境介紹 */
+        .env-img-box {
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        }
+        .env-img-box img {
+            transition: transform 0.6s ease;
+        }
+        .env-img-box:hover img { transform: scale(1.08); }
+
+        /* 收費方案客製 */
+        .pricing-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            background: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+        .pricing-card.featured {
+            border: 2px solid var(--brand-secondary);
+            box-shadow: 0 10px 30px rgba(0, 168, 150, 0.1);
+        }
+        .pricing-badge {
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background: var(--brand-accent);
+            color: white;
+            transform: rotate(45deg);
+            padding: 4px 30px;
+            font-size: 0.75rem;
+        }
+
+        /* 表單控制 */
+        .custom-form input, .custom-form select, .custom-form textarea {
+            border: 1px solid #cbd5e0;
+            padding: 12px;
+            border-radius: 6px;
+        }
+        .custom-form input:focus, .custom-form select:focus, .custom-form textarea:focus {
+            border-color: var(--brand-secondary);
+            box-shadow: 0 0 0 3px rgba(0, 168, 150, 0.15);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Section 1｜社群連結 Top Bar -->
+    <div class="bg-brand-dark py-2 px-3 wow animate__animated animate__fadeIn">
+        <div class="container d-flex justify-content-between align-items-center fs-7">
+            <span class="text-white-50"><i class="fa-solid fa-clock-rotate-left text-brand-secondary me-2"></i>2026 年度基因定序技術全面升級，尊享極速當日線上雲端報告</span>
+            <div>
+                <a href="#" class="text-white-50 me-3"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="text-white-50 me-3"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="text-white-50"><i class="fa-brands fa-line"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 2｜Navbar 選單 -->
+    <nav class="navbar navbar-expand-lg custom-navbar sticky-top shadow-sm wow animate__animated animate__fadeInDown" data-wow-delay="0.2s">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <i class="fa-solid fa-dna text-brand-secondary me-2"></i>極光精準健康管理
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#medicalNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="medicalNav">
+                <ul class="navbar-nav ms-auto text-center align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="#concept">品牌理念</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#services">核心服務</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#team">醫療團隊</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#flow">就診流程</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#advantages">技術優勢</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#environment">醫學空間</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#testimonials">顧客信任</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#pricing">方案收費</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#faq">問與答</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#careers">人才招募</a></li>
+                    <li class="nav-item ms-lg-3">
+                        <a class="btn btn-brand-glow rounded-pill px-4 py-2" href="#appointment"><i class="fa-solid fa-calendar-check me-2"></i>預約精準評估</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Section 3｜Hero 首頁主視覺 -->
+    <div id="heroSlider" class="carousel slide carousel-fade hero-section" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active" style="background-image: linear-gradient(rgba(18,38,63,0.3), rgba(18,38,63,0.3)), url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=1920'); background-color: var(--brand-primary);">
+                <div class="container h-100 d-flex align-items-center">
+                    <div class="carousel-caption-box wow animate__animated animate__fadeInLeft" data-wow-delay="0.4s">
+                        <span class="text-brand-secondary fw-bold tracking-wider mb-2 d-block">PREVENTIVE MEDICINE</span>
+                        <h1 class="display-6 fw-bold text-dark mb-3">從基因解碼<br>定義您的優雅長壽人生</h1>
+                        <p class="text-muted mb-4">結合前沿人工智慧與細胞醫學，為您量身定制主動式健康管理處方，在疾病發生前，優雅止步。</p>
+                        <a href="#appointment" class="btn btn-brand-glow btn-lg rounded-pill px-4 fs-6">預約首次諮詢</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 4｜品牌理念 -->
+    <section id="concept" class="py-5 bg-white">
+        <div class="container py-4 text-center">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 wow animate__animated animate__fadeInUp">
+                    <span class="text-brand-accent fw-bold">OUR PHILOSOPHY</span>
+                    <h2 class="fw-bold mt-2 mb-4">以數據實證為盾，用溫暖療癒為核心</h2>
+                    <div class="mx-auto mb-4" style="width: 50px; height: 3px; background-color: var(--brand-secondary);"></div>
+                    <p class="lead text-muted lh-lg fs-6">
+                        極光精準健康管理中心深信，真正的健康不只是「沒有疾病」，而是身體、心靈與生理年齡的全面平衡。我們揚棄傳統醫療的大眾化框架，透過超高解析度多體學篩檢，深入探尋每個獨特生命體的健康指紋，提供兼具現代醫學冰冷精準與全人照護溫暖質感的專屬療癒體驗。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5｜服務項目 -->
+    <section id="services" class="py-5 bg-brand-light">
+        <div class="container">
+            <div class="text-center mb-5 wow animate__animated animate__fadeIn">
+                <h2 class="fw-bold">全方位精準醫療與健康生態系</h2>
+                <p class="text-muted">跨越預防醫學到抗衰管理，三大核心支柱守護您的生命品質</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4 wow animate__animated animate__fadeInUp" data-wow-delay="0.2s">
+                    <div class="p-4 premium-card text-center h-100">
+                        <div class="text-brand-secondary mb-3"><i class="fa-solid fa-dna fa-3x"></i></div>
+                        <h4 class="fw-bold mb-3">高階多體學基因篩檢</h4>
+                        <p class="text-muted small mb-0">深度解析超早期癌症游離 DNA、心血管疾病易感位點與微菌叢生態，掌握未來的健康藍圖。</p>
+                    </div>
+                </div>
+                <div class="col-md-4 wow animate__animated animate__fadeInUp" data-wow-delay="0.4s">
+                    <div class="p-4 premium-card text-center h-100">
+                        <div class="text-brand-secondary mb-3"><i class="fa-solid fa-capsules fa-3x"></i></div>
+                        <h4 class="fw-bold mb-3">細胞重啟功能醫學處方</h4>
+                        <p class="text-muted small mb-0">依據個人代謝及毒素暴露評估，客製高濃度靜脈營養充能與線粒體修護優化方案。</p>
+                    </div>
+                </div>
+                <div class="col-md-4 wow animate__animated animate__fadeInUp" data-wow-delay="0.6s">
+                    <div class="p-4 premium-card text-center h-100">
+                        <div class="text-brand-secondary mb-3"><i class="fa-solid fa-brain fa-3x"></i></div>
+                        <h4 class="fw-bold mb-3">心靈正念減壓與神經調控</h4>
+                        <p class="text-muted small mb-0">導入自律神經 HRV 生物回饋引導與正念諮商，協助高壓菁英重建內在和諧與優質睡眠。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6｜醫療團隊 -->
+    <section id="team" class="py-5 bg-white">
+        <div class="container">
+            <div class="text-center mb-5 wow animate__animated animate__fadeInDown">
+                <h2 class="fw-bold">頂尖跨領域醫學專家</h2>
+                <p class="text-muted">由前醫學中心教授級醫師、生醫博士與資深營養規劃師組成的核心智囊團</p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-4 wow animate__animated animate__fadeInLeft d-flex" data-wow-delay="0.2s">
+                    <div class="card premium-card border-0 shadow-sm overflow-hidden text-center">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="陳博睿 總院長">
+                        <div class="card-body py-4">
+                            <h5 class="fw-bold mb-1">陳博睿 醫師 / 醫學博士</h5>
+                            <span class="text-brand-secondary small d-block mb-3">總院長｜抗衰老生醫學會常務理事</span>
+                            <p class="text-muted small mb-0">專精於高階基因體學解讀、幹細胞臨床研究與功能醫學處方規劃，具 20 年三甲醫院臨床經驗。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 wow animate__animated animate__fadeInRight d-flex" data-wow-delay="0.4s">
+                    <div class="card premium-card border-0 shadow-sm overflow-hidden text-center">
+                        <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="林若晴 首席健管師">
+                        <div class="card-body py-4">
+                            <h5 class="fw-bold mb-1">林若晴 職能碩士</h5>
+                            <span class="text-brand-secondary small d-block mb-3">首席健康規劃師｜資深心理諮商師</span>
+                            <p class="text-muted small mb-0">擅長將整合營養學與神經正念減壓相結合，為超過三千位高階經理人重建動態健康平衡。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 7｜服務流程 -->
+    <section id="flow" class="py-5 bg-brand-light">
+        <div class="container">
+            <h2 class="fw-bold text-center mb-5 wow animate__animated animate__fadeInDown">尊榮一站式健管流程</h2>
+            <div class="row process-flow">
+                <div class="process-node wow animate__animated animate__zoomIn" data-wow-delay="0.1s">
+                    <div class="process-icon-wrap">01</div>
+                    <h5 class="fw-bold fs-6">雲端智慧挂號</h5>
+                    <p class="text-muted small">線上填寫生活型態問卷，系統初步演算風險權重。</p>
+                </div>
+                <div class="process-node wow animate__animated animate__zoomIn" data-wow-delay="0.3s">
+                    <div class="process-icon-wrap">02</div>
+                    <h5 class="fw-bold fs-6">多體學深度採檢</h5>
+                    <p class="text-muted small">獨立 VIP 採檢空間，專屬護理師無痛極速採樣。</p>
+                </div>
+                <div class="process-node wow animate__animated animate__zoomIn" data-wow-delay="0.5s">
+                    <div class="process-icon-wrap">03</div>
+                    <h5 class="fw-bold fs-6">AI 數據跨界會診</h5>
+                    <p class="text-muted small">結合臨床醫學大數據，多位專家共同商討個人化方案。</p>
+                </div>
+                <div class="process-node wow animate__animated animate__zoomIn" data-wow-delay="0.7s">
+                    <div class="process-icon-wrap">04</div>
+                    <h5 class="fw-bold fs-6">專家1對1解讀</h5>
+                    <p class="text-muted small">拒絕晦澀數據，醫師以白話、精確邏輯擘劃改善藍圖。</p>
+                </div>
+                <div class="process-node wow animate__animated animate__zoomIn" data-wow-delay="0.9s">
+                    <div class="process-icon-wrap">05</div>
+                    <h5 class="fw-bold fs-6">動態追蹤與管護</h5>
+                    <p class="text-muted small">專屬健康管理管家全年度推播提醒，維持最佳狀態。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 8｜優勢特色 -->
+    <section id="advantages" class="py-5 bg-white">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6 wow animate__animated animate__fadeInLeft">
+                    <span class="text-brand-accent fw-bold d-block mb-2">WHY CHOOSE US</span>
+                    <h2 class="fw-bold mb-4">重新定義高階健檢的四大指標</h2>
+                    <div class="d-flex mb-4">
+                        <div class="me-3 text-brand-secondary"><i class="fa-solid fa-microscope fa-xl"></i></div>
+                        <div>
+                            <h5 class="fw-bold mb-1">超前引進次世代定序（NGS）</h5>
+                            <p class="text-muted small">檢測精準度高達 99.99%，能在細胞病變發生前 3 至 5 年捕捉蛛絲馬跡。</p>
+                        </div>
+                    </div>
+                    <div class="d-flex mb-4">
+                        <div class="me-3 text-brand-secondary"><i class="fa-solid fa-user-shield fa-xl"></i></div>
+                        <div>
+                            <h5 class="fw-bold mb-1">極致絕對隱私制</h5>
+                            <p class="text-muted small">全預約分流制，專屬 VIP 單向動線，確保個人資訊與就診過程不被外界干擾。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 wow animate__animated animate__fadeInRight" data-wow-delay="0.3s">
+                    <div class="p-4 rounded shadow-sm bg-brand-light border-start border-4 style-accent" style="border-left-color: var(--brand-secondary) !important;">
+                        <h4 class="fw-bold mb-3 text-brand-primary">主動式健康管理、而非被動等待治療</h4>
+                        <p class="text-muted small lh-lg">傳統醫院是在身體發出警訊後進行修補，極光則是利用大數據深度解讀未病之兆。我們不僅告訴您「現在怎麼了」，更能精準預測「未來如何防範」，將健康的主導權重新交回您的手中。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 9｜環境介紹 -->
+    <section id="environment" class="py-5 bg-brand-light">
+        <div class="container">
+            <div class="text-center mb-5 wow animate__animated animate__fadeIn">
+                <h2 class="fw-bold">沉浸式療癒與醫學空間</h2>
+                <p class="text-muted">洗盡醫院的冰冷與焦慮，融入北歐極簡自然光學，讓身心步入寧靜場域</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4 wow animate__animated animate__zoomIn" data-wow-delay="0.1s">
+                    <div class="env-img-box mb-2">
+                        <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=600" class="img-fluid" alt="獨立 VIP 諮詢室">
+                    </div>
+                    <h6 class="fw-bold text-center mt-3">獨立光感 VIP 諮詢靜室</h6>
+                </div>
+                <div class="col-md-4 wow animate__animated animate__zoomIn" data-wow-delay="0.3s">
+                    <div class="env-img-box mb-2">
+                        <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=600" class="img-fluid" alt="高階多體學採檢艙">
+                    </div>
+                    <h6 class="fw-bold text-center mt-3">次世代無菌多體學採檢艙</h6>
+                </div>
+                <div class="col-md-4 wow animate__animated animate__zoomIn" data-wow-delay="0.5s">
+                    <div class="env-img-box mb-2">
+                        <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=600" class="img-fluid" alt="分子調理舒壓區">
+                    </div>
+                    <h6 class="fw-bold text-center mt-3">高壓氧與分子細胞優化調理區</h6>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 10｜顧客見證 -->
+    <section id="testimonials" class="py-5 bg-white">
+        <div class="container">
+            <h2 class="fw-bold text-center mb-5 wow animate__animated animate__fadeInDown">深受高階菁英與家族信賴</h2>
+            <div class="row g-4">
+                <div class="col-md-6 wow animate__animated animate__fadeInLeft" data-wow-delay="0.2s">
+                    <div class="p-4 rounded shadow-sm bg-brand-light h-100">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="text-brand-accent me-2"><i class="fa-solid fa-quote-left fa-2x"></i></div>
+                            <div>
+                                <h6 class="fw-bold mb-0">林先生 (52歲，跨國科技業創辦人)</h6>
+                                <span class="text-muted small">管護年資：3年</span>
+                            </div>
+                        </div>
+                        <p class="text-muted small mb-0 lh-lg">「長年跨國熬夜，身體早已嚴重透支。在極光接受了周密的代謝與線粒體調理後，不僅慢性疲勞全然消失，睡眠品質也回到了30歲時的深度。這是我做過最精準的健康投資。」</p>
+                    </div>
+                </div>
+                <div class="col-md-6 wow animate__animated animate__fadeInRight" data-wow-delay="0.4s">
+                    <div class="p-4 rounded shadow-sm bg-brand-light h-100">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="text-brand-accent me-2"><i class="fa-solid fa-quote-left fa-2x"></i></div>
+                            <div>
+                                <h6 class="fw-bold mb-0">張女士 (45歲，知名藝術拍賣總監)</h6>
+                                <span class="text-muted small">管護年資：2年</span>
+                            </div>
+                        </div>
+                        <p class="text-muted small mb-0 lh-lg">「我有非常嚴重的家族心血管病史，一般健檢總是讓我看著紅字心驚膽顫。極光的陳博士用前瞻性的基因管理處方，幫我從飲食與細胞營養上進行精準阻斷，紅字終於恢復正常，非常感謝這裡的溫暖關懷。」</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 11｜收費方案 -->
+    <section id="pricing" class="py-5 bg-brand-light">
+        <div class="container">
+            <div class="text-center mb-5 wow animate__animated animate__fadeIn">
+                <h2 class="fw-bold">量身客製的年度管護方案</h2>
+                <p class="text-muted">透明、嚴謹的定價策略，拒絕任何隱形醫療推銷</p>
+            </div>
+            <div class="row g-4 justify-content-center align-items-stretch">
+                <div class="col-md-5 wow animate__animated animate__fadeInUp" data-wow-delay="0.2s">
+                    <div class="pricing-card p-4 text-center h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <h4 class="fw-bold mb-2">精準御守方案</h4>
+                            <span class="text-muted small d-block mb-4">適合初次接觸功能醫學的亞健康族群</span>
+                            <div class="my-4">
+                                <span class="display-6 fw-bold text-brand-primary">NT$ 36,000</span>
+                                <span class="text-muted small"> / 單次全面評估</span>
+                            </div>
+                            <ul class="list-unstyled text-start small border-top pt-3 text-muted">
+                                <li class="mb-2"><i class="fa-solid fa-check text-brand-secondary me-2"></i>次世代全外顯子潛在風險基因解碼</li>
+                                <li class="mb-2"><i class="fa-solid fa-check text-brand-secondary me-2"></i>自律神經與核心器官衰老指數分析</li>
+                                <li class="mb-2"><i class="fa-solid fa-check text-brand-secondary me-2"></i>院長級專家1對1深度解讀門診</li>
+                            </ul>
+                        </div>
+                        <a href="#appointment" class="btn btn-brand-outline w-100 rounded-pill mt-4">預約此專案</a>
+                    </div>
+                </div>
+                <div class="col-md-5 wow animate__animated animate__fadeInUp" data-wow-delay="0.4s">
+                    <div class="pricing-card featured p-4 text-center h-100 d-flex flex-column justify-content-between">
+                        <div class="pricing-badge">年度旗艦</div>
+                        <div>
+                            <h4 class="fw-bold mb-2 text-brand-primary">極光尊榮長壽管護</h4>
+                            <span class="text-muted small d-block mb-4">專為高階菁英與家族核心打造的全方位管護</span>
+                            <div class="my-4">
+                                <span class="display-6 fw-bold text-brand-secondary">NT$ 128,000</span>
+                                <span class="text-muted small"> / 年度全方位護航</span>
+                            </div>
+                            <ul class="list-unstyled text-start small border-top pt-3 text-muted">
+                                <li class="mb-2"><i class="fa-solid fa-check text-brand-secondary me-2"></i>包含「精準御守」所有基因及功能醫學檢測</li>
+                                <li class="mb-2"><i class="fa-solid fa-check text-brand-secondary me-2"></i>年度客製高濃度複合分子細胞營養調理 6 次</li>
+                                <li class="mb-2"><i class="fa-solid fa-check text-brand-secondary me-2"></i>24小時專屬健管師綠色通道與動態生活干預</li>
+                            </ul>
+                        </div>
+                        <a href="#appointment" class="btn btn-brand-glow w-100 rounded-pill mt-4">尊榮開啟</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 12｜常見問題 -->
+    <section id="faq" class="py-5 bg-white">
+        <div class="container">
+            <h2 class="fw-bold text-center mb-5 wow animate__animated animate__fadeInDown">常見問題 FAQ</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-8 wow animate__animated animate__fadeInUp" data-wow-delay="0.2s">
+                    <div class="accordion" id="medicalFaq">
+                        <div class="accordion-item border-0 border-bottom mb-2">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button bg-transparent fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faqItem1">
+                                    Q: 基因檢測與一般大醫院的抽血健康檢查有何本質區別？
+                                </button>
+                            </h2>
+                            <div id="faqItem1" class="accordion-collapse collapse show" data-bs-parent="#medicalFaq">
+                                <div class="accordion-body text-muted small lh-lg">
+                                    一般常規檢查側重於「器官是否已實質受損」（如肝指數過高、發現腫瘤），屬於事後補救。而極光的基因檢測與多體學篩檢則是從遺傳密碼與微觀分子代謝層面出發，探測您在未來5-10年內可能發生的潛在病變傾向，以便提前透過功能醫學阻斷病灶，屬於超前部署的主動預防。
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item border-0 border-bottom mb-2">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed bg-transparent fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faqItem2">
+                                    Q: 進行多體學採檢前，需要注意哪些事項？
+                                </button>
+                            </h2>
+                            <div id="faqItem2" class="accordion-collapse collapse" data-bs-parent="#medicalFaq">
+                                <div class="accordion-body text-muted small lh-lg">
+                                    依據您的預約套餐，部分涉及血液代謝與微菌叢的項目需要您在採樣前保持至少 10 小時的空腹（可適量飲用純水），並於前三天避免暴飲暴食與過度飲酒。確認預約後，您的專屬健管師將會發送詳細的行前注意事項至您的手機。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 13｜預約表單 -->
+    <section id="appointment" class="py-5 bg-brand-light">
+        <div class="container">
+            <div class="text-center mb-5 wow animate__animated animate__fadeIn">
+                <h2 class="fw-bold">開啟您的精準健康之鑰</h2>
+                <p class="text-muted">填寫以下資訊，極光專業健管師將於 24 小時內與您聯繫，為您妥善安排專屬評估時段</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8 wow animate__animated animate__fadeInUp" data-wow-delay="0.3s">
+                    <form class="custom-form p-4 bg-white rounded shadow-sm">
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">貴姓大名</label>
+                                <input type="text" class="form-control" placeholder="請輸入您的真實姓名" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">聯絡電話</label>
+                                <input type="tel" class="form-control" placeholder="例如：0912345678" required>
+                            </div>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">電子信箱</label>
+                                <input type="email" class="form-control" placeholder="name@example.com" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">欲諮詢之核心專案</label>
+                                <select class="form-select">
+                                    <option>精準御守全面評估方案 (NT$ 36,000)</option>
+                                    <option>極光尊榮長壽年度管護方案 (NT$ 128,000)</option>
+                                    <option>企業菁英/家族集體客製化規劃</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label small fw-bold">簡述目前身心狀況或家族史病史（選填）</label>
+                            <textarea class="form-control" rows="4" placeholder="例如：有高血壓家族史、近期嚴重失眠與慢性疲勞..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-brand-glow w-100 py-3 rounded-pill fw-bold">提交尊榮預約申請</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 14｜門市資訊 -->
+    <section id="contact" class="py-5 bg-white">
+        <div class="container">
+            <h2 class="fw-bold text-center mb-5 wow animate__animated animate__fadeInDown">醫學中心據點與地圖</h2>
+            <div class="row g-4 align-items-center">
+                <div class="col-lg-6 wow animate__animated animate__fadeInLeft" data-wow-delay="0.2s">
+                    <div class="p-4 rounded shadow-sm bg-brand-light">
+                        <h4 class="fw-bold text-brand-primary mb-4"><i class="fa-solid fa-hospital-user me-2 text-brand-secondary"></i>台中旗艦總院</h4>
+                        <ul class="list-unstyled text-muted small lh-lg">
+                            <li class="mb-2"><i class="fa-solid fa-location-dot me-2 text-brand-secondary"></i><strong>院址：</strong> 台灣台中市西屯區大道精華核心特區</li>
+                            <li class="mb-2"><i class="fa-solid fa-phone me-2 text-brand-secondary"></i><strong>尊榮專線：</strong> (04) 2345-6789 (全預約制)</li>
+                            <li class="mb-2"><i class="fa-solid fa-envelope me-2 text-brand-secondary"></i><strong>服務信箱：</strong> service@aura-health.med</li>
+                            <li><i class="fa-solid fa-calendar-days me-2 text-brand-secondary"></i><strong>營業時間：</strong> 週一至週六 09:00 - 18:00 (週日例假日休診)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6 wow animate__animated animate__fadeInRight" data-wow-delay="0.4s">
+                    <div class="ratio ratio-16x9 env-img-box">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.6045391480665!2d120.61208037610665!3d24.150505573356073!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34693e1dde8742ab%3A0x2dbef049db01cfd6!2z6aKe6YuV6Yuml6YeV5Yqb55m85bGV572y5Lit5b2w5oqV5YiG572y!5e0!3m2!1szh-TW!2stw!4v1710000000000!5m2!1szh-TW!2stw" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 15｜加入我們 (人才招募) -->
+    <section id="careers" class="py-5 bg-brand-light">
+        <div class="container">
+            <h2 class="fw-bold text-center mb-5 wow animate__animated animate__fadeInDown">招賢納士｜共同開創精準預防新紀元</h2>
+            <div class="row g-4">
+                <div class="col-md-6 wow animate__animated animate__fadeInUp" data-wow-delay="0.2s">
+                    <div class="card premium-card border-0 p-4 h-100">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div>
+                                <span class="badge rounded-pill mb-2 py-2 px-3" style="background-color: rgba(0, 168, 150, 0.1); color: var(--brand-secondary);">高階專業職</span>
+                                <h4 class="fw-bold card-title mt-2">抗衰老抗氧化功能醫學醫師 (2名)</h4>
+                                <p class="text-muted small mt-3">負責高階多體學報告研究整合、客製化細胞微量營養處方開立與定期學術交流臨床研討。</p>
+                            </div>
+                            <p class="text-brand-accent fw-bold mb-0 mt-4 small">待遇條件：卓越年薪與績效獎金面議</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 wow animate__animated animate__fadeInUp" data-wow-delay="0.4s">
+                    <div class="card premium-card border-0 p-4 h-100">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div>
+                                <span class="badge rounded-pill mb-2 py-2 px-3" style="background-color: rgba(181, 137, 38, 0.1); color: var(--brand-accent);">菁英照護職</span>
+                                <h4 class="fw-bold card-title mt-2">高階全預約制 VIP 專屬健康管理師 (4名)</h4>
+                                <p class="text-muted small mt-3">負責高資產客戶全程就診引導、全年度動態飲食與生活干預管護追蹤、突發健康諮詢排除。</p>
+                            </div>
+                            <p class="text-brand-accent fw-bold mb-0 mt-4 small">待遇條件：月薪 48,000 - 65,000 元（享個案管護津貼）</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer 頁尾 -->
+    <footer class="bg-brand-dark text-white-50 pt-5 pb-3 wow animate__animated animate__fadeIn">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <div class="col-md-6 text-center text-md-start">
+                    <h5 class="fw-bold text-white mb-3"><i class="fa-solid fa-dna text-brand-secondary me-2"></i>極光精準健康管理中心</h5>
+                    <p class="small">Aura Precision Health Lab 致力於利用次世代生物科技、AI 預測演算法與人本關懷，為全球高階客戶與家族守護寶貴的生命品質。預防，才是最高階的醫療方案。</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <h5 class="fw-bold text-white mb-3">學術與醫療合作連結</h5>
+                    <ul class="list-unstyled small">
+                        <li class="d-inline-block"><a href="#" class="text-white-50 text-decoration-none me-2">中華民國功能醫學會</a>|</li>
+                        <li class="d-inline-block"><a href="#" class="text-white-50 text-decoration-none mx-2">台灣基因體學研究中心</a>|</li>
+                        <li class="d-inline-block"><a href="#" class="text-white-50 text-decoration-none ms-2">中彰投前沿醫療基地</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr style="border-color: rgba(255,255,255,0.1);">
+            <div class="text-center small pt-2 text-white-50">
+                &copy; 2026 極光精準健康管理中心 Aura Precision Health Lab. 保留所有權利。
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 Bundle JS -->
+     <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/wow.min.js"></script>
+    <script>
+        new WOW().init();
+    </script>
+</body>
+</html>
